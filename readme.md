@@ -1,4 +1,4 @@
-# Jalili-nim
+# Jalali-nim
 
 ## English
 see examples in `tests` directory.
