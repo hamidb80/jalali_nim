@@ -1,6 +1,8 @@
 type
   DateTuple* = tuple[year, month, day: int]
 
+# impls ---
+
 func gregorian_to_jalali*(gy, gm, gd: int): DateTuple =
   const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
 
@@ -38,6 +40,10 @@ func gregorian_to_jalali*(gy, gm, gd: int): DateTuple =
     jd = 1 + (days - 186) mod 30
 
   (jy, jm, jd)
+
+func gregorian_to_jalali*(gdate: DateTuple): DateTuple =
+  gregorian_to_jalali gdate.year, gdate.month, gdate.day
+
 
 func jalali_to_gregorian*(jy, jm, jd: int): DateTuple =
   var
@@ -91,3 +97,6 @@ func jalali_to_gregorian*(jy, jm, jd: int): DateTuple =
     gm.inc
 
   (gy, gm, gd)
+
+func jalali_to_gregorian*(jdate: DateTuple): DateTuple =
+  jalali_to_gregorian jdate.year, jdate.month, jdate.day
