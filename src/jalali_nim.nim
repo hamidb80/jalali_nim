@@ -1,4 +1,4 @@
-func gregorian_to_jalali(gy,gm,gd: int): auto =
+func gregorian_to_jalali*(gy,gm,gd: int): auto =
   var 
     g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
     
@@ -36,9 +36,7 @@ func gregorian_to_jalali(gy,gm,gd: int): auto =
 
   (jy, jm, jd)
 
-echo gregorian_to_jalali(2001, 11, 24)
-#[
-func jalali_to_gregorian(jy, jm, jd: int): auto=
+func jalali_to_gregorian*(jy, jm, jd: int): auto=
   var 
     jy1 = jy + 1595
     
@@ -54,10 +52,12 @@ func jalali_to_gregorian(jy, jm, jd: int): auto=
       )
     
     gy = 400 * (days div 146097)
+  
   days = days mod 146097
 
   if days > 36524:
-    gy += 100 * (--days div 36524)
+    days.dec
+    gy += 100 * ((days+1) div 36524)
     days = days mod 36524
     
     if days >= 365:
@@ -84,8 +84,7 @@ func jalali_to_gregorian(jy, jm, jd: int): auto=
     gm = 0
   
   while gm < 13 and gd > sal_a[gm]:
-    gd -= sal_a[gm++]
-	
+    gd -= sal_a[gm]
+    gm.inc
+  
   (gy, gm, gd)
-]#
-# ---
