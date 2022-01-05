@@ -7,9 +7,9 @@ see the original code [here](https://jdf.scr.ir/jdf/kotlin)
 ## Persian
 کتابخانه تبدیل تاریخ شمسی به میلادی و برعکس به زبان نیم
 
-ببینید
-`tests`
 مثال های استفاده را در پوشه
+`tests`
+ببینید
 
 **لغتنامه**:
 * Gregorian: گری گوری (میلادی)
