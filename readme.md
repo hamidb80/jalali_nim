@@ -14,3 +14,5 @@ see the original code [here](https://jdf.scr.ir/jdf/kotlin)
 **لغتنامه**:
 * Gregorian: گری گوری (میلادی)
 * Jalali: جلالی (شمسی)
+
+کد ها تبدیل شده از این کد [زبان کاتلین همین کتابخانه](https://jdf.scr.ir/jdf/kotlin)
