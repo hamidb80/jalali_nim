@@ -66,7 +66,7 @@ func jalali_to_gregorian*(jy, jm, jd: int): DateTuple =
 
   if days > 36524:
     days.dec
-    gy += 100 * ((days+1) div 36524)
+    gy += 100 * (days div 36524)
     days = days mod 36524
 
     if days >= 365:
