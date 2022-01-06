@@ -1,8 +1,8 @@
 # Package
 
-version       = "0.0.1"
+version       = "0.0.2"
 author        = "hamidb80"
-description   = "Jalili <=> Gregorian date converter, originally a copy of http://jdf.scr.ir/"
+description   = "Jalali <=> Gregorian date converter, originally a copy of http://jdf.scr.ir/"
 license       = "MIT"
 srcDir        = "src"
 
