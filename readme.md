@@ -1,10 +1,10 @@
-# Jalali-nim
+# Jalali_nim
 
 ## English
 see examples in `tests` directory.
 see the original code [here](https://github.com/SCR-IR/jalaliDate-Kotlin/)
 
-## Persian
+## فارسی
 کتابخانه تبدیل تاریخ شمسی به میلادی و برعکس به زبان نیم
 
 مثال های استفاده را در پوشه
