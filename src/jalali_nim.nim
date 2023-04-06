@@ -1,8 +1,8 @@
 
 type
-  JalaliYear* = distinct int
-  JalaliMonthDay* = distinct range[0..31]
-  JalaliMonth* = enum
+  JYear* = distinct int
+  JDay* = range[1..31]
+  JMonth* = enum
     farvardin
     ordibehesht
     khordad
@@ -16,32 +16,47 @@ type
     bahman
     esfand
 
-  # JalaliDate = tuple
+  JalaliDate* = tuple
+    year: JYear
+    month: JMonth
+    day: JDay
 
-  DateTuple* = tuple[year, month, day: int]
+  CommonDateTuple* = tuple
+    year, month, day: int
 
 # impls ---
 
 template `%`(n: int, d: static int): untyped =
   cast[range[0..d-1]](n mod d)
 
-func isLeap*(jy: int): bool = 
+func isLeap*(jy: JYear): bool =
   ## reference: https://fa.wikipedia.org/wiki/%D8%B3%D8%A7%D9%84_%DA%A9%D8%A8%DB%8C%D8%B3%D9%87
 
-  assert jy in 0 .. 3293
+  assert jy.int in 0 .. 3293
   const firstPeriod = 0 .. 473
 
-  case jy % 128:
-  of 0, 4, 8, 12, 16, 20, 29, 33, 37, 41, 45, 49, 53, 62, 66, 70, 74, 78, 82, 86, 95, 99, 103, 107, 111, 115, 124: true
-  of 24, 57, 90, 119: jy notin firstPeriod
-  of 25, 58, 91, 120: jy in firstPeriod
+  case jy.int % 128:
+  of 0, 4, 8, 12, 16, 20, 29, 33, 37, 41, 45, 49, 53, 62, 66, 70, 74, 78, 82,
+      86, 95, 99, 103, 107, 111, 115, 124: true
+  of 24, 57, 90, 119: jy.int notin firstPeriod
+  of 25, 58, 91, 120: jy.int in firstPeriod
   else: false
+
+func daysOfMonth*(year: JYear, month: JMonth): range[29..31] =
+  case month
+  of farvardin .. shahrivar: 31
+  of mehr .. bahman: 30
+  of esfand:
+    if isLeap year: 30
+    else: 29
 
 # https://vrgl.ir/IWUnM
 
-func gregorian_to_jalali*(gy, gm, gd: int): DateTuple =
+# --- old way
+
+func gregorian_to_jalali*(gy, gm, gd: int): CommonDateTuple =
   const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
-  
+
   var
     gy2 =
       if gm > 2: gy + 1
@@ -77,11 +92,7 @@ func gregorian_to_jalali*(gy, gm, gd: int): DateTuple =
 
   (jy, jm, jd)
 
-func gregorian_to_jalali*(gdate: DateTuple): DateTuple =
-  gregorian_to_jalali gdate.year, gdate.month, gdate.day
-
-
-func jalali_to_gregorian*(jy, jm, jd: int): DateTuple =
+func jalali_to_gregorian*(jy, jm, jd: int): CommonDateTuple =
   var
     jy1 = jy + 1595
 
@@ -134,5 +145,9 @@ func jalali_to_gregorian*(jy, jm, jd: int): DateTuple =
 
   (gy, gm, gd)
 
-func jalali_to_gregorian*(jdate: DateTuple): DateTuple =
+
+func gregorian_to_jalali*(gdate: CommonDateTuple): CommonDateTuple =
+  gregorian_to_jalali gdate.year, gdate.month, gdate.day
+
+func jalali_to_gregorian*(jdate: CommonDateTuple): CommonDateTuple =
   jalali_to_gregorian jdate.year, jdate.month, jdate.day
