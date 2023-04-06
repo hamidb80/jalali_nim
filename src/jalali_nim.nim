@@ -1,11 +1,47 @@
+
 type
+  JalaliYear* = distinct int
+  JalaliMonthDay* = distinct range[0..31]
+  JalaliMonth* = enum
+    farvardin
+    ordibehesht
+    khordad
+    tir
+    mordad
+    shahrivar
+    mehr
+    aban
+    azar
+    dey
+    bahman
+    esfand
+
+  # JalaliDate = tuple
+
   DateTuple* = tuple[year, month, day: int]
 
 # impls ---
 
+template `%`(n: int, d: static int): untyped =
+  cast[range[0..d-1]](n mod d)
+
+func isLeap*(jy: int): bool = 
+  ## reference: https://fa.wikipedia.org/wiki/%D8%B3%D8%A7%D9%84_%DA%A9%D8%A8%DB%8C%D8%B3%D9%87
+
+  assert jy in 0 .. 3293
+  const firstPeriod = 0 .. 473
+
+  case jy % 128:
+  of 0, 4, 8, 12, 16, 20, 29, 33, 37, 41, 45, 49, 53, 62, 66, 70, 74, 78, 82, 86, 95, 99, 103, 107, 111, 115, 124: true
+  of 24, 57, 90, 119: jy notin firstPeriod
+  of 25, 58, 91, 120: jy in firstPeriod
+  else: false
+
+# https://vrgl.ir/IWUnM
+
 func gregorian_to_jalali*(gy, gm, gd: int): DateTuple =
   const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
-
+  
   var
     gy2 =
       if gm > 2: gy + 1
